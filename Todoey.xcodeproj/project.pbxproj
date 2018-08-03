@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		734334FF2114266200F986FD /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734334FE2114266200F986FD /* Item.swift */; };
 		E20ECFE821135CAD0073EC36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20ECFE721135CAD0073EC36 /* AppDelegate.swift */; };
 		E20ECFEA21135CAD0073EC36 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20ECFE921135CAD0073EC36 /* TodoListViewController.swift */; };
 		E20ECFED21135CAD0073EC36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E20ECFEB21135CAD0073EC36 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		734334FE2114266200F986FD /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		E20ECFE421135CAD0073EC36 /* Todoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E20ECFE721135CAD0073EC36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E20ECFE921135CAD0073EC36 /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +37,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		734334FB211425BD00F986FD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E20ECFF021135CAD0073EC36 /* LaunchScreen.storyboard */,
+				E20ECFEE21135CAD0073EC36 /* Assets.xcassets */,
+				E20ECFF321135CAD0073EC36 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		734334FC211425F000F986FD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E20ECFE921135CAD0073EC36 /* TodoListViewController.swift */,
+				734334FE2114266200F986FD /* Item.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		734334FD2114261800F986FD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E20ECFEB21135CAD0073EC36 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E20ECFDB21135CAD0073EC36 = {
 			isa = PBXGroup;
 			children = (
@@ -55,11 +84,9 @@
 			isa = PBXGroup;
 			children = (
 				E20ECFE721135CAD0073EC36 /* AppDelegate.swift */,
-				E20ECFE921135CAD0073EC36 /* TodoListViewController.swift */,
-				E20ECFEB21135CAD0073EC36 /* Main.storyboard */,
-				E20ECFEE21135CAD0073EC36 /* Assets.xcassets */,
-				E20ECFF021135CAD0073EC36 /* LaunchScreen.storyboard */,
-				E20ECFF321135CAD0073EC36 /* Info.plist */,
+				734334FC211425F000F986FD /* Controllers */,
+				734334FD2114261800F986FD /* Views */,
+				734334FB211425BD00F986FD /* Supporting Files */,
 			);
 			path = Todoey;
 			sourceTree = "<group>";
@@ -137,6 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E20ECFEA21135CAD0073EC36 /* TodoListViewController.swift in Sources */,
+				734334FF2114266200F986FD /* Item.swift in Sources */,
 				E20ECFE821135CAD0073EC36 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,12 +302,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 346D27J3EM;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Todoey/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SurajKumar.Todoey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -289,12 +319,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 346D27J3EM;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Todoey/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SurajKumar.Todoey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
