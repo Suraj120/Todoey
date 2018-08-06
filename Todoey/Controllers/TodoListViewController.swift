@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
     
     @IBOutlet var searchBar: UITableView!
     
@@ -29,7 +29,7 @@ class TodoListViewController: UITableViewController {
         
         let dataFilePathForCoreDataStorage = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         print(dataFilePathForCoreDataStorage)
-        
+        tableView.rowHeight = 70.0
         //searchBar.delegate = self
         
         
@@ -65,9 +65,11 @@ class TodoListViewController: UITableViewController {
         return itemArray.count
     }
     
+
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let item = itemArray[indexPath.row]
         
         cell.textLabel?.text = item.title
@@ -86,7 +88,7 @@ class TodoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(itemArray[indexPath.row].done)
-        print(itemArray[indexPath.row].title)
+        print(itemArray[indexPath.row].title ?? "")
         
         //        if (itemArray[indexPath.row]).done == false {
         //            itemArray[indexPath.row].done = true
@@ -106,7 +108,7 @@ class TodoListViewController: UITableViewController {
         
         
             saveItems() //Saving the value of done to the Items.plist
-        
+            tableView.reloadData()
         
         
         //        if (tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark) {
@@ -136,7 +138,7 @@ class TodoListViewController: UITableViewController {
             self.itemArray.append(newItem)
             //self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             self.saveItems() //Saving data
-            
+            self.tableView.reloadData()
             
         }
         //adding text field to alert view controller
@@ -169,7 +171,7 @@ class TodoListViewController: UITableViewController {
         } catch {
             print("error in saving data \(error)")
         }
-        tableView.reloadData()
+       // tableView.reloadData()
     }
     
 //    func loadItems() {
@@ -186,7 +188,7 @@ class TodoListViewController: UITableViewController {
     
     func loadItemsFromCoreData( with request:NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
         
-        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        let categoryPredicate = NSPredicate(format: "parentCategory.name CONTAINS[cd] %@", selectedCategory!.name!)
         
         if let addtionalPredicate = predicate {
             let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
@@ -203,6 +205,19 @@ class TodoListViewController: UITableViewController {
         }
         tableView.reloadData()
     }
+    
+    override func updateData(at indexPath: IndexPath) {
+        
+        super.updateData(at: indexPath)
+        
+        //delete operation on core data
+        self.context.delete(self.itemArray[indexPath.row])
+        self.itemArray.remove(at: indexPath.row)
+        self.saveItems()
+       
+        
+    }
+    
     
 }
 

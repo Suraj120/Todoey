@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CategoryTableViewController: UITableViewController {
+class CategoryTableViewController: SwipeTableViewController{
     
     var categoriesArray = [Category]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -18,6 +18,7 @@ class CategoryTableViewController: UITableViewController {
         super.viewDidLoad()
         
         loadCategories()
+        tableView.rowHeight = 80.0
 
     }
 
@@ -27,10 +28,12 @@ class CategoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let category = categoriesArray[indexPath.row]
         cell.textLabel?.text = category.name
         return cell
+        
     }
     
    //MARK: - Data Manipulation Methods
@@ -41,7 +44,7 @@ class CategoryTableViewController: UITableViewController {
         } catch {
             print("Error in saving the data \(error)")
         }
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     func loadCategories(with request : NSFetchRequest<Category> = Category.fetchRequest()) {
@@ -52,6 +55,17 @@ class CategoryTableViewController: UITableViewController {
             print("Error in fetching data \(error)")
         }
         tableView.reloadData()
+    }
+    
+    //MARK: Data Updation Method
+    
+    override func updateData(at indexPath: IndexPath) {
+        
+        //delete operation on core data
+                    self.context.delete(self.categoriesArray[indexPath.row])
+                    self.categoriesArray.remove(at: indexPath.row)
+                    self.saveCategories()
+        
     }
     
     //MARK: - Add New Categories
@@ -65,6 +79,7 @@ class CategoryTableViewController: UITableViewController {
             newItem.name = textfield.text!
             self.categoriesArray.append(newItem)
             self.saveCategories()
+            self.tableView.reloadData()
         }
         alert.addTextField { (alertTextfield) in
             alertTextfield.placeholder = "Create Categories"
@@ -92,3 +107,5 @@ class CategoryTableViewController: UITableViewController {
     }
     
 }
+
+
