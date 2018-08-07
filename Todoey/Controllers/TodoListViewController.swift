@@ -8,10 +8,12 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
     
-    @IBOutlet var searchBar: UITableView!
+    //@IBOutlet var searchBar: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var itemArray = [Item]()
     
@@ -29,7 +31,11 @@ class TodoListViewController: SwipeTableViewController {
         
         let dataFilePathForCoreDataStorage = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         print(dataFilePathForCoreDataStorage)
-        tableView.rowHeight = 70.0
+        tableView.separatorStyle = .none
+        
+        
+        
+        
         //searchBar.delegate = self
         
         
@@ -59,6 +65,45 @@ class TodoListViewController: SwipeTableViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        if let hexColor = selectedCategory?.color {
+            
+            title = selectedCategory?.name
+            
+            updateNavBar(withHexCode: hexColor)
+           
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        //guard let originalColor = UIColor(hexString: "1D98F6") else { fatalError() }
+        updateNavBar(withHexCode: "1D98F6")
+    }
+    
+    //MARK: - Nav bar setup
+    func updateNavBar(withHexCode colourHexCode: String) {
+        
+        guard let navBar = navigationController?.navigationBar else {
+            fatalError("Navigation Controller does not exist!")
+        }
+        
+        guard let navBarColor = UIColor(hexString: colourHexCode) else {
+            fatalError()
+        }
+        navBar.barTintColor = navBarColor
+        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        searchBar.barTintColor = navBarColor
+        
+    }
+    
+    
+    
+    
+    
     //MARK: - Tableview Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,8 +116,15 @@ class TodoListViewController: SwipeTableViewController {
         
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let item = itemArray[indexPath.row]
+        if let color = UIColor(hexString: (selectedCategory!.color)!)?.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(itemArray.count)) {
+              cell.backgroundColor = color
+            cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
+        } else {
+            //cell.backgroundColor = UIColor.hexValue("0096FF")
+        }
         
-        cell.textLabel?.text = item.title
+        cell.textLabel?.text = item.title?.capitalized
+      
         
         cell.accessoryType =  item.done ? .checkmark : .none
 //        if item.done == true {
@@ -145,6 +197,7 @@ class TodoListViewController: SwipeTableViewController {
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new item"
             textField = alertTextField
+            
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)

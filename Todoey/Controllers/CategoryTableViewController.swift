@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+
 class CategoryTableViewController: SwipeTableViewController{
     
     var categoriesArray = [Category]()
@@ -18,8 +19,7 @@ class CategoryTableViewController: SwipeTableViewController{
         super.viewDidLoad()
         
         loadCategories()
-        tableView.rowHeight = 80.0
-
+        
     }
 
     //MARK: - Tableview Datasource methods
@@ -32,6 +32,7 @@ class CategoryTableViewController: SwipeTableViewController{
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let category = categoriesArray[indexPath.row]
         cell.textLabel?.text = category.name
+        cell.backgroundColor = UIColor(hexString: category.color!)
         return cell
         
     }
@@ -77,6 +78,7 @@ class CategoryTableViewController: SwipeTableViewController{
             
             let newItem = Category(context: self.context)
             newItem.name = textfield.text!
+            newItem.color = UIColor.randomFlat.hexValue()
             self.categoriesArray.append(newItem)
             self.saveCategories()
             self.tableView.reloadData()
